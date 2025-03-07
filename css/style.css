@@ -1,0 +1,28 @@
+/* Style général */
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: white ;
+    color: var(--text-light);
+    margin: 0;
+    padding: 0;
+}
+/* Header */
+.header {
+    background-color: #5a696e;
+    padding: 1rem 0;
+    display: flex;           /* Ajouter flex pour aligner les éléments */
+    align-items: center;     /* Centrer verticalement */
+    justify-content: start;  /* Aligner au début */
+    gap: 1rem;              /* Espace entre les éléments */
+}
+
+.header img {
+    height: 100px;           /* Ajuster la taille du logo selon vos besoins */
+    margin-left: 1rem;      /* Marge à gauche */
+}
+
+.header-brand {
+    color: white;
+    font-size: 2rem;
+    margin: 0;              /* Enlever les marges par défaut du h1 */
+}
