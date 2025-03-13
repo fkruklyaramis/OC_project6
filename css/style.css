@@ -1,6 +1,6 @@
 /* Style général */
 body {
-    font-family: 'Roboto', sans-serif;
+    font-family: 'Oswald', sans-serif;
     background-color: white ;
     color: var(--text-light);
     margin: 20px;
@@ -29,6 +29,8 @@ body {
 }
 
 .header-brand {
+    font-family: 'Oswald';
+    font-weight: 300;
     color: white;
     font-size: 1.8rem;
     margin: 0;
@@ -70,18 +72,13 @@ body {
     align-self: flex-end;
     margin-top: auto;    
 }
-.col-md-8 {
-    display: flex;
-    flex-direction: column;
-    position: relative;
-}
 
 .btn-primary:hover {
     background-color: #c82333;
     border-color: #bd2130;
 }
 
-/* Section MOdal */
+/* Section Modal */
 
 .modal-content {
     border-radius: 0;
@@ -123,7 +120,6 @@ body {
 
 .modal-body {
     padding: 1.5rem;
-    
 }
 
 .modal-body h5 {
