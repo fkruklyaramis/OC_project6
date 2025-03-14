@@ -24,10 +24,13 @@
             <div class="col-xl-3">
                 <img class="img-fluid movie-poster" alt="Movie poster" >
             </div>
-            <div class="col-xl-9">
+            <div class="col-xl-9 d-flex flex-column"> 
+                <!--d-flex flex-column : transforme la colonne en conteneur flex vertical
+                align-self-end : aligne le bouton à droite
+                mt-auto : pousse le bouton vers le bas-->
                 <h2 class="movie-title"></h2>
                 <p class="movie-description"></p>
-                <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#movie-modal">
+                <button type="button" class="btn btn-primary align-self-end mt-auto" data-bs-toggle="modal" data-bs-target="#movie-modal">
                     Détails
                 </button>
             </div>
@@ -56,40 +59,37 @@
     <div class="modal fade" id="movie-modal" tabindex="-1" aria-labelledby="movieModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <!-- En-tête de la modal -->
-                <div class="modal-header">
-                    <div class="row w-100">
-                        <div class="col-md-8">
-                            <h3 class="modal-title" id="movieModalLabel"></h3>
-                            <strong>
-                            <div class="modal-genre"></div>
-                            <div class="modal-date"></div>
-                            <div class="modal-rated"></div>
-                            <div class="modal-countries"></div>
-                            <div class="modal-languages"></div>  </strong>
-                            <div class="movie-meta">
-                                <span class="modal-year"></span> • <span class="modal-duration"></span>min
-                                IMDB score: <span class="modal-score"></span> / 10
-                            </div>
-                            <div class="movie-box-office mt-2">
-                                Box Office: <span class="modal-income"></span>
-                            </div>
-                            <div class="movie-directors mt-2">
-                                Réalisé par: <span class="modal-directors"></span>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <img class="modal-movie-img img-fluid" alt="Movie poster">
+                <div class="row">
+                    <div class="col-md-8">
+                        <h3 class="modal-title" id="movieModalLabel"></h3>
+                        <strong>
+                        <div class="modal-date-genre"></div>
+                        <div class="modal-rated"></div>
+                        <div class="modal-pg-duration-countries"></div>
+                        <div class="modal-imdb-score"></div>  
+                        <div class="modal-income"></div></strong>
+                        
+                        <div class="movie-directors mt-4">
+                            <strong>Réalisé par: </strong><span class="modal-directors d-block mt-1"></span>
                         </div>
                     </div>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    <div class="col-md-4">
+                        <img class="modal-movie-img img-fluid" alt="Movie poster">
+                    </div>
                 </div>
-                
+            
                 <!-- Corps de la modal -->
-                <div class="modal-body">
-                    <p class="modal-description"></p>
-                    <h5 class="mt-4">Avec</h5>
-                    <div class="modal-actors"></div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <p class="modal-description  mt-4"></p>
+                        Avec :
+                        <div class="modal-actors"></div>
+                        <div class="col-md-12 modal-footer-custom">
+                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                                Fermer
+                            </button>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
