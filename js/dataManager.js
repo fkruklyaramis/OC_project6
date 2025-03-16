@@ -34,4 +34,13 @@ class DataManager {
         const response = await fetch(`${this.baseUrl}/titles/${movieId}`);
         return await response.json();
     }
+
+    async getMoviesByCategory(category) {
+        const response = await fetch(`${this.baseUrl}/titles/?genre=${category}`);
+        const data =  await response.json();
+        const moviePromises = data.results.map(movie => 
+            this.getMovieDetails(movie.id)
+        );
+        return await Promise.all(moviePromises);
+    }
 }

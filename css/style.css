@@ -110,5 +110,15 @@ body {
     justify-content: center;
     margin-top: 1.5rem;
 }
+/* Section movies list */
+.list-movies .movie-poster {
+    width: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
 
+.list-movies .movie-poster:hover {
+    transform: scale(1.05);
+    cursor: pointer;
+}
 
