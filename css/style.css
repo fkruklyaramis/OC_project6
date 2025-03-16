@@ -3,36 +3,38 @@ body {
     font-family: 'Oswald', sans-serif;
     background-color: white ;
     color: var(--text-light);
-    margin: 20px;
+    margin: 80px;
     padding: 20px;
 }
 
 .category-title {
-    font-size: 2rem;
-    margin-bottom: 1rem;
+    font-size: 48px;
+    font-weight: 600;
+    margin-bottom: 2rem;
+    margin-top: 2rem;
     color: #000000;
     font-weight: bold;
 }
 /* Header */
 .header {
-    background-color: #5a696e;
+    background-color: #61787F;
     padding: 1rem 0;
-    display: flex;           /* Ajouter flex pour aligner les éléments */
-    align-items: center;     /* Centrer verticalement */
-    justify-content: start;  /* Aligner au début */
-    gap: 1rem;              /* Espace entre les éléments */
+    display: flex;           
+    align-items: center;     
+    justify-content: start; 
+    gap: 1rem;              
 }
 
 .header img {
-    height: 80px;           /* Ajuster la taille du logo selon vos besoins */
-    margin-left: 1rem;      /* Marge à gauche */
+    height: 80px;
+    margin-left: 1rem;      
 }
 
 .header-brand {
     font-family: 'Oswald';
     font-weight: 300;
     color: white;
-    font-size: 1.8rem;
+    font-size: 40px;
     margin: 0;
     margin-left: 4rem;
 }
@@ -40,27 +42,29 @@ body {
 /* Section Best movie */
 .best-movie {
     background-color: #f8f9fa;
-    padding: 2rem 0;
 }
 .best-movie .row {
-    border: 4px solid black;
+    border: 6px solid black;
     padding: 20px;
     margin: 0 !important;
     border-radius: 0%;
 }
-.movie-poster {
-    max-height: 400px;
+.img-fluid{
+    width: 100%;
+    max-height: 600px;
     object-fit: cover;
 }
 .movie-title {
-    font-size: 2.5rem;
+    font-size: 48px;
+    font-weight: 600;
     margin-bottom: 1rem;
     color: #333;
     font-weight: bold;
 }
 
 .movie-description {
-    font-size: 1.1rem;
+    font-size: 28px;
+    font-weight: 200;
     line-height: 1.6;
     margin-bottom: 2rem;
 }
@@ -113,6 +117,8 @@ body {
 /* Section movies list */
 .list-movies .movie-poster {
     width: 100%;
+    max-width: 500px;
+    max-height: 500px;
     object-fit: cover;
     transition: transform 0.3s ease;
 }
