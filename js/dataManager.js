@@ -35,8 +35,8 @@ class DataManager {
         return await response.json();
     }
 
-    async getMoviesByCategory(category) {
-        const response = await fetch(`${this.baseUrl}/titles/?genre=${category}`);
+    async getMoviesByCategory(category, limit) {
+        const response = await fetch(`${this.baseUrl}/titles/?genre=${category}&page_size=${limit}`);
         const data =  await response.json();
         const moviePromises = data.results.map(movie => 
             this.getMovieDetails(movie.id)

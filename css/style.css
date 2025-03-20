@@ -40,9 +40,7 @@ body {
 }
 
 /* Section Best movie */
-.best-movie {
-    background-color: #f8f9fa;
-}
+
 .best-movie .row {
     border: 6px solid black;
     padding: 20px;
