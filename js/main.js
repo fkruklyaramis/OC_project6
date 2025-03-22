@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayBestMovie();
     displayTopRatedMovies();
     displayCategories();
-
+    initializeCustomCategories();
 });
 
 // Show best movie
@@ -83,6 +83,53 @@ async function displayCategories() {
     }
 }
 
+async function initializeCustomCategories() {
+    try {
+        const categories = await dataManager.getCategories();
+        const sections = ['custom-category-1', 'custom-category-2'];
+        
+        sections.forEach(sectionId => {
+            const select = document.querySelector(`#${sectionId} .category-select`);
+            
+            // Remplir la liste déroulante
+            categories.forEach(category => {
+                const option = document.createElement('option');
+                option.value = category.name;
+                option.textContent = category.name;
+                select.appendChild(option);
+            });
+
+            // Gérer le changement de catégorie
+            select.addEventListener('change', async (event) => {
+                const selectedCategory = event.target.value;
+                const moviesContainer = document.querySelector(`#${sectionId} .movies-container`);
+                
+                if (selectedCategory) {
+                    const moviesData = await dataManager.getMoviesByCategory(selectedCategory, 6);
+                    const posters = document.querySelectorAll(`#${sectionId} .movie-poster`);
+                    
+                    moviesContainer.classList.remove('d-none');
+                    
+                    posters.forEach((poster, index) => {
+                        if (moviesData[index]) {
+                            poster.src = moviesData[index].image_url;
+                            poster.alt = `Affiche de ${moviesData[index].title}`;
+                            poster.style.cursor = 'pointer';
+                            poster.addEventListener('click', () => {
+                                showMovieModal(moviesData[index]);
+                            });
+                        }
+                    });
+                } else {
+                    moviesContainer.classList.add('d-none');
+                }
+            });
+        });
+    } catch (error) {
+        console.error('Erreur initializeCustomCategories:', error);
+    }
+}
+
 // show movie modal
 function showMovieModal(movieData) {
     // Sélectionner tous les éléments de la modal
@@ -94,16 +141,13 @@ function showMovieModal(movieData) {
     modal.querySelector('.modal-date-genre').textContent = movieData.year + ' - ' + movieData.genres.join(', ');
     modal.querySelector('.modal-pg-duration-countries').textContent = 'Rating : ' + movieData.rated + ' - ' + movieData.duration + ' minutes (' + movieData.countries.join(' / ')+ ')';
     modal.querySelector('.modal-imdb-score').textContent = 'IMDB score: ' + movieData.imdb_score + '/10';
-    modal.querySelector('.modal-income').textContent = 'Recettes au box-office: ' + (movieData.worldwide_gross_income ?? 0 ) + ' ' + movieData.budget_currency; // masquer la ligne si null + tester la currency
+    if (movieData.worldwide_gross_income) {
+        modal.querySelector('.modal-income').textContent = 'Recettes au box-office: ' + movieData.worldwide_gross_income.toLocaleString() + ' ' + movieData.budget_currency;
+        modal.querySelector('.modal-income').style.display = 'block';
+    } else {
+        modal.querySelector('.modal-income').style.display = 'none';
+    }
     modal.querySelector('.modal-directors').textContent = movieData.directors.join(', ');
     modal.querySelector('.modal-actors').textContent = movieData.actors.join(', ');
     modal.querySelector('.modal-description').textContent = movieData.long_description
 }
-
-
-
-// G – General Audiences - All ages admitted. Nothing that would offend parents for viewing by children.
-// PG – Parental Guidance Suggested - Some material may not be suitable for children. Parents urged to give "parental guidance".
-// PG-13 – Parents Strongly Cautioned - Some material may be inappropriate for children under 13. Parents are urged to be cautious.
-// R – Restricted - Under 17 requires accompanying parent or adult guardian. Contains
-// NC-17 – Adults Only

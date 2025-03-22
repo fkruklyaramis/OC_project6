@@ -43,4 +43,29 @@ class DataManager {
         );
         return await Promise.all(moviePromises);
     }
+    
+    async getCategories() {
+        try {
+            let allCategories = [];
+            let nextPage = `${this.baseUrl}/genres/`;
+
+            while (nextPage) {
+                const response = await fetch(nextPage);
+                const data = await response.json();
+                
+                // Ajouter les résultats de la page courante
+                allCategories = allCategories.concat(data.results);
+                
+                // Mettre à jour l'URL de la page suivante
+                nextPage = data.next;
+            }
+
+            // Trier les catégories par ordre alphabétique
+            return allCategories.sort();
+
+        } catch (error) {
+            console.error('Erreur getCategories:', error);
+            return [];
+        }
+    }
 }
