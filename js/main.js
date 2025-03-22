@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayBestMovie();
     displayTopRatedMovies();
     displayCategories();
-    initializeCustomCategories();
+    displayCustomCategories();
 });
 
 // Show best movie
@@ -35,8 +35,15 @@ async function displayTopRatedMovies() {
         moviesData.slice(1).forEach((movie, index) => {
             if (posters[index]) {
                 posters[index].src = movie.image_url;
-                // Ajouter un écouteur d'événements pour la modal
-                posters[index].addEventListener('click', () => {
+                posters[index].alt = 'Poster du film : ' + movie.title;
+                
+                const titleOverlay = posters[index].closest('.position-relative')
+                    .querySelector('.movie-title-overlay');
+                titleOverlay.textContent = movie.title;
+                
+                const button = posters[index].closest('.position-relative')
+                    .querySelector('.btn');
+                button.addEventListener('click', () => {
                     showMovieModal(movie);
                 });
                 // Ajouter un style de curseur pointer
@@ -59,8 +66,14 @@ async function getCategoryMovies(category, div_id, limit) {
             if (posters[index]) {
                 posters[index].src = movie.image_url;
                 posters[index].alt = 'Poster du film : ' + movie.title;
-                // Ajouter un écouteur d'événements pour la modal
-                posters[index].addEventListener('click', () => {
+                
+                const titleOverlay = posters[index].closest('.position-relative')
+                    .querySelector('.movie-title-overlay');
+                titleOverlay.textContent = movie.title;
+                
+                const button = posters[index].closest('.position-relative')
+                    .querySelector('.btn');
+                button.addEventListener('click', () => {
                     showMovieModal(movie);
                 });
                 // Ajouter un style de curseur pointer
@@ -83,7 +96,7 @@ async function displayCategories() {
     }
 }
 
-async function initializeCustomCategories() {
+async function displayCustomCategories() {
     try {
         const categories = await dataManager.getCategories();
         const sections = ['custom-category-1', 'custom-category-2'];
@@ -114,10 +127,18 @@ async function initializeCustomCategories() {
                         if (moviesData[index]) {
                             poster.src = moviesData[index].image_url;
                             poster.alt = `Affiche de ${moviesData[index].title}`;
-                            poster.style.cursor = 'pointer';
-                            poster.addEventListener('click', () => {
+
+                            const titleOverlay = posters[index].closest('.position-relative')
+                            .querySelector('.movie-title-overlay');
+                            titleOverlay.textContent = moviesData[index].title;
+                            
+                            const button = posters[index].closest('.position-relative')
+                                .querySelector('.btn');
+                            button.addEventListener('click', () => {
                                 showMovieModal(moviesData[index]);
                             });
+                            // Ajouter un style de curseur pointer
+                            posters[index].style.cursor = 'pointer';
                         }
                     });
                 } else {
