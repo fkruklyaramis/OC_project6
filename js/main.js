@@ -1,4 +1,5 @@
 const dataManager = new DataManager();
+const sizeFilmList = 6;
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', () => {
@@ -29,30 +30,13 @@ async function displayBestMovie() {
 async function displayTopRatedMovies() {
     try {
         // Créer la grille
-        createMovieGrid('#top-rated .movies-container', 6);
+        createMovieGrid('#top-rated .movies-container', sizeFilmList);
 
-        const moviesData = await dataManager.getTopRatedMovies(7);
+        const moviesData = await dataManager.getTopRatedMovies(sizeFilmList + 1);
         const posters = document.querySelectorAll('#top-rated .movie-poster');
         
-        // Pour chaque poster, assigner l'image correspondante
-        moviesData.slice(1).forEach((movie, index) => {
-            if (posters[index]) {
-                posters[index].src = movie.image_url;
-                posters[index].alt = 'Poster du film : ' + movie.title;
-                
-                const titleOverlay = posters[index].closest('.position-relative')
-                    .querySelector('.movie-title-overlay');
-                titleOverlay.textContent = movie.title;
-                
-                const button = posters[index].closest('.position-relative')
-                    .querySelector('.btn');
-                button.addEventListener('click', () => {
-                    showMovieModal(movie);
-                });
-                // Ajouter un style de curseur pointer
-                posters[index].style.cursor = 'pointer';
-            }
-        });
+        updateMoviePosters(moviesData.slice(1), posters);
+
     } catch (error) {
         console.error('Erreur displayTopRatedMovies:', error);
     }
@@ -61,30 +45,13 @@ async function displayTopRatedMovies() {
 // get category movies data
 async function getCategoryMovies(category, div_id, limit) {
     try {
-        createMovieGrid(div_id, 6);
+        createMovieGrid(div_id, sizeFilmList);
         
         const moviesData = await dataManager.getMoviesByCategory(category, limit);
         const posters = document.querySelectorAll('#category-' + category + ' .movie-poster');
     
-        // Pour chaque poster, assigner l'image correspondante
-        moviesData.forEach((movie, index) => {
-            if (posters[index]) {
-                posters[index].src = movie.image_url;
-                posters[index].alt = 'Poster du film : ' + movie.title;
-                
-                const titleOverlay = posters[index].closest('.position-relative')
-                    .querySelector('.movie-title-overlay');
-                titleOverlay.textContent = movie.title;
-                
-                const button = posters[index].closest('.position-relative')
-                    .querySelector('.btn');
-                button.addEventListener('click', () => {
-                    showMovieModal(movie);
-                });
-                // Ajouter un style de curseur pointer
-                posters[index].style.cursor = 'pointer';
-            }
-        });
+        updateMoviePosters(moviesData, posters);
+
     } catch (error) {
         console.error('Erreur dispayCategoryMovies:', error);
     }
@@ -93,8 +60,8 @@ async function getCategoryMovies(category, div_id, limit) {
 // show categories movies
 async function displayCategories() {
     try {
-        getCategoryMovies('comedy','#category-comedy .movies-container', 6);
-        getCategoryMovies('biography','#category-biography .movies-container', 6);
+        getCategoryMovies('comedy','#category-comedy .movies-container', sizeFilmList);
+        getCategoryMovies('biography','#category-biography .movies-container', sizeFilmList);
 
     } catch (error) {
         console.error('Erreur displayCategories:', error);
@@ -108,7 +75,7 @@ async function displayCustomCategories() {
         const sections = ['custom-category-1', 'custom-category-2'];
         
         sections.forEach(sectionId => {
-            createMovieGrid('#' + sectionId + ' .movies-container', 6);
+            createMovieGrid('#' + sectionId + ' .movies-container', sizeFilmList);
             const select = document.querySelector(`#${sectionId} .category-select`);
             
             // Remplir la liste déroulante
@@ -125,29 +92,13 @@ async function displayCustomCategories() {
                 const moviesContainer = document.querySelector(`#${sectionId} .movies-container`);
                 
                 if (selectedCategory) {
-                    const moviesData = await dataManager.getMoviesByCategory(selectedCategory, 6);
+                    const moviesData = await dataManager.getMoviesByCategory(selectedCategory, sizeFilmList);
                     const posters = document.querySelectorAll(`#${sectionId} .movie-poster`);
                     
                     moviesContainer.classList.remove('d-none');
                     
-                    posters.forEach((poster, index) => {
-                        if (moviesData[index]) {
-                            poster.src = moviesData[index].image_url;
-                            poster.alt = `Affiche de ${moviesData[index].title}`;
+                    updateMoviePosters(moviesData, posters);
 
-                            const titleOverlay = posters[index].closest('.position-relative')
-                            .querySelector('.movie-title-overlay');
-                            titleOverlay.textContent = moviesData[index].title;
-                            
-                            const button = posters[index].closest('.position-relative')
-                                .querySelector('.btn');
-                            button.addEventListener('click', () => {
-                                showMovieModal(moviesData[index]);
-                            });
-                            // Ajouter un style de curseur pointer
-                            posters[index].style.cursor = 'pointer';
-                        }
-                    });
                 } else {
                     moviesContainer.classList.add('d-none');
                 }
@@ -181,19 +132,19 @@ function showMovieModal(movieData) {
 }
 
 // create movie grid
-function createMovieGrid(containerId, numberOfMovies = 6) {
+function createMovieGrid(containerId, sizeFilmList) {
     const container = document.querySelector(containerId);
     container.innerHTML = ''; // Vider le conteneur
 
     // Créer les rangées nécessaires
-    const rowsNeeded = Math.ceil(numberOfMovies / 3);
+    const rowsNeeded = Math.ceil(sizeFilmList / 3);
     
     for (let r = 0; r < rowsNeeded; r++) {
         const row = document.createElement('div');
         row.className = 'row mb-4';
         
         // Créer 3 cartes par rangée
-        const cardsInThisRow = Math.min(3, numberOfMovies - (r * 3));
+        const cardsInThisRow = Math.min(3, sizeFilmList - (r * 3));
         for (let i = 0; i < cardsInThisRow; i++) {
             const movieCard = `
                 <div class="col-md-4 movie-container">
@@ -213,4 +164,25 @@ function createMovieGrid(containerId, numberOfMovies = 6) {
         
         container.appendChild(row);
     }
+}
+
+// Fonction utilitaire pour mettre à jour les posters
+function updateMoviePosters(moviesData, posters) {
+    moviesData.forEach((movie, index) => {
+        if (posters[index]) {
+            const poster = posters[index];
+            poster.src = movie.image_url;
+            poster.alt = 'Poster du film : ' + movie.title;
+            poster.style.cursor = 'pointer';
+
+            const container = poster.closest('.position-relative');
+            const titleOverlay = container.querySelector('.movie-title-overlay');
+            const button = container.querySelector('.btn');
+
+            titleOverlay.textContent = movie.title;
+            button.addEventListener('click', () => {
+                showMovieModal(movie);
+            });
+        }
+    });
 }

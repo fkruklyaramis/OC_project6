@@ -13,7 +13,7 @@ class DataManager {
         }
     }
 
-    async getTopRatedMovies(limit = 7) {
+    async getTopRatedMovies(limit) {
         try {
             const data = await this.getMoviesByImdbScore(limit);
             const moviePromises = data.results.map(movie => 
