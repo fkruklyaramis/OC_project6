@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', () => {
     displayCustomCategories();
 });
 
-// Show best movie
+// show best movie
 async function displayBestMovie() {
     try {
         const movieData = await dataManager.getBestMovie();
@@ -28,6 +28,9 @@ async function displayBestMovie() {
 // show top rated movies
 async function displayTopRatedMovies() {
     try {
+        // Créer la grille
+        createMovieGrid('#top-rated .movies-container', 6);
+
         const moviesData = await dataManager.getTopRatedMovies(7);
         const posters = document.querySelectorAll('#top-rated .movie-poster');
         
@@ -58,8 +61,10 @@ async function displayTopRatedMovies() {
 // get category movies data
 async function getCategoryMovies(category, div_id, limit) {
     try {
+        createMovieGrid(div_id, 6);
+        
         const moviesData = await dataManager.getMoviesByCategory(category, limit);
-        const posters = document.querySelectorAll(div_id);
+        const posters = document.querySelectorAll('#category-' + category + ' .movie-poster');
     
         // Pour chaque poster, assigner l'image correspondante
         moviesData.forEach((movie, index) => {
@@ -85,23 +90,25 @@ async function getCategoryMovies(category, div_id, limit) {
     }
 }
 
-//show categories movies
+// show categories movies
 async function displayCategories() {
     try {
-        getCategoryMovies('comedy','#category-comedy .movie-poster', 6);
-        getCategoryMovies('biography','#category-biography .movie-poster', 6);
+        getCategoryMovies('comedy','#category-comedy .movies-container', 6);
+        getCategoryMovies('biography','#category-biography .movies-container', 6);
 
     } catch (error) {
         console.error('Erreur displayCategories:', error);
     }
 }
 
+// show custom categories movies
 async function displayCustomCategories() {
     try {
         const categories = await dataManager.getCategories();
         const sections = ['custom-category-1', 'custom-category-2'];
         
         sections.forEach(sectionId => {
+            createMovieGrid('#' + sectionId + ' .movies-container', 6);
             const select = document.querySelector(`#${sectionId} .category-select`);
             
             // Remplir la liste déroulante
@@ -171,4 +178,39 @@ function showMovieModal(movieData) {
     modal.querySelector('.modal-directors').textContent = movieData.directors.join(', ');
     modal.querySelector('.modal-actors').textContent = movieData.actors.join(', ');
     modal.querySelector('.modal-description').textContent = movieData.long_description
+}
+
+// create movie grid
+function createMovieGrid(containerId, numberOfMovies = 6) {
+    const container = document.querySelector(containerId);
+    container.innerHTML = ''; // Vider le conteneur
+
+    // Créer les rangées nécessaires
+    const rowsNeeded = Math.ceil(numberOfMovies / 3);
+    
+    for (let r = 0; r < rowsNeeded; r++) {
+        const row = document.createElement('div');
+        row.className = 'row mb-4';
+        
+        // Créer 3 cartes par rangée
+        const cardsInThisRow = Math.min(3, numberOfMovies - (r * 3));
+        for (let i = 0; i < cardsInThisRow; i++) {
+            const movieCard = `
+                <div class="col-md-4 movie-container">
+                    <div class="position-relative">
+                        <img class="img-fluid movie-poster" alt="Movie poster">
+                        <div class="movie-overlay">
+                            <div class="movie-title-overlay"></div>
+                            <button class="btn btn-light" type="button" data-bs-toggle="modal" data-bs-target="#movie-modal">
+                                Détails
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            `;
+            row.innerHTML += movieCard;
+        }
+        
+        container.appendChild(row);
+    }
 }
