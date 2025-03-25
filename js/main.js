@@ -166,7 +166,7 @@ function createMovieGrid(containerId, sizeFilmList) {
     }
 }
 
-// Fonction utilitaire pour mettre à jour les posters
+// update movie posters
 function updateMoviePosters(moviesData, posters) {
     moviesData.forEach((movie, index) => {
         if (posters[index]) {

@@ -184,3 +184,8 @@ body {
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+.category-select {
+    width: 404px;
+    height: 78px;
+}
