@@ -107,6 +107,11 @@ body {
     font-weight: 400;
     font-size: 24px;
 }
+
+.modal-directors{
+    font-weight: 300;
+    font-size: 24px;
+}
 .modal-footer-custom {
     display: flex;
     justify-content: center;
@@ -116,7 +121,6 @@ body {
 .list-movies .movie-poster {
     width: 100%;
     max-width: 500px;
-    max-height: 600px;
     object-fit: cover;
 }
 .movie-poster {
@@ -125,7 +129,6 @@ body {
     height: 600px;
     object-fit: cover;
 }
-
 
 /* overlay */
 .position-relative {

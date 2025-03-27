@@ -147,7 +147,7 @@ function createMovieGrid(containerId, sizeFilmList) {
         const cardsInThisRow = Math.min(3, sizeFilmList - (r * 3));
         for (let i = 0; i < cardsInThisRow; i++) {
             const movieCard = `
-                <div class="col-md-4 movie-container">
+                <div class="col-md-4 text-center movie-container">
                     <div class="position-relative">
                         <img class="img-fluid movie-poster" alt="Movie poster">
                         <div class="movie-overlay">

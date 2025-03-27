@@ -49,7 +49,7 @@ class DataManager {
             let allCategories = [];
             let nextPage = `${this.baseUrl}/genres/`;
 
-            while (nextPage) {
+            do {
                 const response = await fetch(nextPage);
                 const data = await response.json();
                 
@@ -58,7 +58,7 @@ class DataManager {
                 
                 // Mettre à jour l'URL de la page suivante
                 nextPage = data.next;
-            }
+            } while (nextPage);
 
             // Trier les catégories par ordre alphabétique
             return allCategories.sort();
