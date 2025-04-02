@@ -16,25 +16,28 @@
 </head>
 <body >
     <!-- Header -->
+    <!-- d-flex : Layout flexible
+    justify-content-between : Espacement sur mobile
+    justify-content-sm-start : Alignement à gauche sur tablette/desktop
+    d-none d-sm-block : Cache le titre sur mobile uniquement-->
     <header class="header">
-        <img src="img/logo.png" alt="logo"> 
-        <div class="header-brand">Vidéos à la demande</div>
+        <div class="d-flex align-items-center justify-content-center justify-content-sm-start w-100">
+            <img src="img/logo.png" alt="logo" class="header-logo"> 
+            <div class="header-brand d-none d-sm-block">Vidéos à la demande</div>
+        </div>
     </header>
 
     <!-- Section Meilleur Film -->
     <section id="best-movie" class="best-movie">
-        <h1 class="category-title"> Meilleur film </h1>
+        <h1 class="category-title text-center text-md-start">Meilleur film</h1>
         <div class="row">
-            <div class="col-xl-3">
+            <div class="col-12 col-md-4 col-xl-3 mb-3 mb-md-0">
                 <img class="img-fluid movie-poster" alt="Movie poster" src="img/missing.png">
             </div>
-            <div class="col-xl-9 d-flex flex-column"> 
-                <!--d-flex flex-column : transforme la colonne en conteneur flex vertical
-                align-self-end : aligne le bouton à droite
-                mt-auto : pousse le bouton vers le bas-->
-                <div class="movie-title"></div>
-                <p class="movie-description"></p>
-                <button type="button" class="btn btn-primary align-self-end mt-auto" data-bs-toggle="modal" data-bs-target="#movie-modal">
+            <div class="col-12 col-md-8 col-xl-9 d-flex flex-column"> 
+                <div class="movie-title text-md-start"></div>
+                <p class="movie-description text-md-start"></p>
+                <button type="button" class="btn btn-primary align-self-center align-self-md-end mt-auto" data-bs-toggle="modal" data-bs-target="#movie-modal">
                     Détails
                 </button>
             </div>
@@ -100,35 +103,61 @@
     <div class="modal fade" id="movie-modal" tabindex="-1" aria-labelledby="movieModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <div class="row">
-                    <div class="col-md-8">
-                        <h3 class="modal-title" id="movieModalLabel"></h3>
+                <!-- Version Desktop -->
+                <div class="d-none d-lg-block">
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h3 class="modal-title" id="movieModalLabel"></h3>
+                            <div class="modal-date-genre"></div>
+                            <div class="modal-rated"></div>
+                            <div class="modal-pg-duration-countries"></div>
+                            <div class="modal-imdb-score"></div>  
+                            <div class="modal-income"></div>
+                            
+                            <div class="movie-directors mt-4">
+                                Réalisé par: <span class="modal-directors d-block mt-1"></span>
+                            </div>
+                        </div>
+                        <div class="col-md-4">
+                            <img class="modal-movie-img img-fluid" alt="Movie poster" src="img/missing.png">
+                        </div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-md-12">
+                            <p class="modal-description mt-4"></p>
+                            Avec :
+                            <div class="modal-actors"></div>
+                            <div class="col-md-12 modal-footer-custom">
+                                <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
+                                    Fermer
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+    
+                <!-- Version Mobile/Tablet -->
+                <div class="d-block d-lg-none">
+                    <div class="modal-body p-4">
+                        <div class="d-flex justify-content-between align-items-center">
+                            <h3 class="modal-title mb-0" id="movieModalLabel-mobile"></h3>
+                            <button type="button" class="btn-close btn-close-custom" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
                         <div class="modal-date-genre"></div>
                         <div class="modal-rated"></div>
                         <div class="modal-pg-duration-countries"></div>
-                        <div class="modal-imdb-score"></div>  
+                        <div class="modal-imdb-score"></div>
                         <div class="modal-income"></div>
                         
                         <div class="movie-directors mt-4">
                             Réalisé par: <span class="modal-directors d-block mt-1"></span>
                         </div>
-                    </div>
-                    <div class="col-md-4">
-                        <img class="modal-movie-img img-fluid" alt="Movie poster" src="img/missing.png">
-                    </div>
-                </div>
-            
-                <!-- Corps de la modal -->
-                <div class="row">
-                    <div class="col-md-12">
-                        <p class="modal-description  mt-4"></p>
+    
+                        <p class="modal-description mt-4"></p>
+                        <img class="modal-movie-img img-fluid mb-4" alt="Movie poster" src="img/missing.png">
                         Avec :
                         <div class="modal-actors"></div>
-                        <div class="col-md-12 modal-footer-custom">
-                            <button type="button" class="btn btn-primary" data-bs-dismiss="modal">
-                                Fermer
-                            </button>
-                        </div>
                     </div>
                 </div>
             </div>

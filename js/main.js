@@ -111,59 +111,118 @@ async function displayCustomCategories() {
 
 // show movie modal
 function showMovieModal(movieData) {
-    // Sélectionner tous les éléments de la modal
     const modal = document.getElementById('movie-modal');
     
-    // Remplir les informations
-    modal.querySelector('.modal-title').textContent = movieData.title;
-    modal.querySelector('.modal-movie-img').src = movieData.image_url;
-    modal.querySelector('.modal-date-genre').textContent = movieData.year + ' - ' + movieData.genres.join(', ');
-    modal.querySelector('.modal-pg-duration-countries').textContent = 'Rating : ' + movieData.rated + ' - ' + movieData.duration + ' minutes (' + movieData.countries.join(' / ')+ ')';
-    modal.querySelector('.modal-imdb-score').textContent = 'IMDB score: ' + movieData.imdb_score + '/10';
+    // Mettre à jour les éléments communs aux deux versions
+    modal.querySelectorAll('.modal-title').forEach(el => el.textContent = movieData.title);
+    modal.querySelectorAll('.modal-movie-img').forEach(el => el.src = movieData.image_url);
+    modal.querySelectorAll('.modal-date-genre').forEach(el => 
+        el.textContent = movieData.year + ' - ' + movieData.genres.join(', '));
+    modal.querySelectorAll('.modal-pg-duration-countries').forEach(el => 
+        el.textContent = 'Rating : ' + movieData.rated + ' - ' + movieData.duration + ' minutes (' + movieData.countries.join(' / ')+ ')');
+    modal.querySelectorAll('.modal-imdb-score').forEach(el => 
+        el.textContent = 'IMDB score: ' + movieData.imdb_score + '/10');
+
+    // Gérer le box office
     if (movieData.worldwide_gross_income) {
-        modal.querySelector('.modal-income').textContent = 'Recettes au box-office: ' + movieData.worldwide_gross_income.toLocaleString() + ' ' + movieData.budget_currency;
-        modal.querySelector('.modal-income').style.display = 'block';
+        modal.querySelectorAll('.modal-income').forEach(el => {
+            el.textContent = 'Recettes au box-office: ' + movieData.worldwide_gross_income.toLocaleString() + ' ' + movieData.budget_currency;
+            el.style.display = 'block';
+        });
     } else {
-        modal.querySelector('.modal-income').style.display = 'none';
+        modal.querySelectorAll('.modal-income').forEach(el => {
+            el.style.display = 'none';
+        });
     }
-    modal.querySelector('.modal-directors').textContent = movieData.directors.join(', ');
-    modal.querySelector('.modal-actors').textContent = movieData.actors.join(', ');
-    modal.querySelector('.modal-description').textContent = movieData.long_description
+
+    // Mettre à jour les autres informations
+    modal.querySelectorAll('.modal-directors').forEach(el => 
+        el.textContent = movieData.directors.join(', '));
+    modal.querySelectorAll('.modal-actors').forEach(el => 
+        el.textContent = movieData.actors.join(', '));
+    modal.querySelectorAll('.modal-description').forEach(el => 
+        el.textContent = movieData.long_description);
 }
-
 // create movie grid
-function createMovieGrid(containerId, sizeFilmList) {
+function createMovieGrid(containerId, numberOfMovies) {
     const container = document.querySelector(containerId);
-    container.innerHTML = ''; // Vider le conteneur
+    container.innerHTML = '';
+    const row = document.createElement('div');
+    row.className = 'row g-4';
 
-    // Créer les rangées nécessaires
-    const rowsNeeded = Math.ceil(sizeFilmList / 3);
-    
-    for (let r = 0; r < rowsNeeded; r++) {
-        const row = document.createElement('div');
-        row.className = 'row mb-4';
+    for (let i = 0; i < numberOfMovies; i++) {
+        const isTopRated = containerId === '#top-rated .movies-container';
         
-        // Créer 3 cartes par rangée
-        const cardsInThisRow = Math.min(3, sizeFilmList - (r * 3));
-        for (let i = 0; i < cardsInThisRow; i++) {
-            const movieCard = `
-                <div class="col-md-4 text-center movie-container">
-                    <div class="position-relative">
-                        <img class="img-fluid movie-poster" alt="Movie poster">
-                        <div class="movie-overlay">
-                            <div class="movie-title-overlay"></div>
-                            <button class="btn btn-light" type="button" data-bs-toggle="modal" data-bs-target="#movie-modal">
-                                Détails
-                            </button>
-                        </div>
+        // Classes de visibilité selon le device et la position
+        let visibilityClasses = '';
+        
+        if (isTopRated) {
+            // Pour top-rated:
+            // Mobile (<576px): cacher après le 2ème
+            // Tablet (576px-991px): cacher après le 4ème
+            // Desktop (≥992px): tout montrer
+            if (i >= 4) {
+                visibilityClasses = 'd-none d-lg-block mobile-hidden tablet-hidden';
+            } else if (i >= 2) {
+                visibilityClasses = 'd-none d-sm-block d-lg-block mobile-hidden';
+            }
+        } else {
+            // Pour les autres sections:
+            // Mobile: cacher après le 2ème
+            // Tablet: cacher après le 4ème
+            if (i >= 4) {
+                visibilityClasses = 'd-none d-lg-block mobile-hidden tablet-hidden';
+            } else if (i >= 2) {
+                visibilityClasses = 'd-none d-sm-block mobile-hidden';
+            }
+        }
+
+        const movieCard = `
+            <div class="col-12 col-sm-6 col-lg-4 movie-container ${visibilityClasses}">
+                <div class="position-relative">
+                    <img class="img-fluid movie-poster" alt="Movie poster">
+                    <div class="movie-overlay">
+                        <div class="movie-title-overlay"></div>
+                        <button class="btn btn-light" type="button" data-bs-toggle="modal" data-bs-target="#movie-modal">
+                            Détails
+                        </button>
                     </div>
                 </div>
-            `;
-            row.innerHTML += movieCard;
-        }
-        
-        container.appendChild(row);
+            </div>
+        `;
+        row.innerHTML += movieCard;
     }
+
+    // Ajouter le bouton voir plus/moins
+    const toggleButton = `
+        <div class="text-center mt-4 d-block d-lg-none">
+            <button class="btn btn-primary toggle-view">
+                Voir plus
+            </button>
+        </div>
+    `;
+    row.insertAdjacentHTML('beforeend', toggleButton);
+    
+    container.appendChild(row);
+
+    // Ajouter l'écouteur d'événements pour le bouton
+    const button = container.querySelector('.toggle-view');
+    button.addEventListener('click', () => {
+        const screenWidth = window.innerWidth;
+        const hiddenCards = screenWidth >= 576 
+            ? container.querySelectorAll('.tablet-hidden')
+            : container.querySelectorAll('.mobile-hidden');
+
+        hiddenCards.forEach(card => {
+            if (card.classList.contains('d-none')) {
+                card.classList.remove('d-none');
+                button.textContent = 'Voir moins';
+            } else {
+                card.classList.add('d-none');
+                button.textContent = 'Voir plus';
+            }
+        });
+    });
 }
 
 // update movie posters
