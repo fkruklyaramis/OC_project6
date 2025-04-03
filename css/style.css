@@ -76,15 +76,18 @@
     position: absolute;
     left: 0;
     right: 0;
-    top: 35%;
+    top: 25%;
     height: 200px;
-    transform: translateY(-50%);
     background-color: rgba(0, 0, 0, 0.7);
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     opacity: 0;
     transition: opacity 0.3s ease;
+}
+.position-relative {
+    position: relative;
+    min-height: 300px;
 }
 
 .position-relative:hover .movie-overlay {
@@ -217,11 +220,14 @@
 /* ===============================
    RESPONSIVE DESIGN
    =============================== */
-   
+
 /* Desktop (≥992px) */
 @media (min-width: 992px) {
     .toggle-view {
         display: none;
+    }
+    .header img {
+        margin-left: 20px;
     }
 }
 
@@ -229,6 +235,9 @@
 @media (min-width: 576px) and (max-width: 991.98px) {
     .movie-container {
         margin-bottom: 1.5rem;
+    }
+    .header img {
+        margin-left: 20px;
     }
 }
 

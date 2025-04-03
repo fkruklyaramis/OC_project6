@@ -1,5 +1,7 @@
 const dataManager = new DataManager();
 const sizeFilmList = 6;
+const tabletSizeFilmList = 4;
+const mobileSizeFilmList = 2;
 
 // Initialisation
 document.addEventListener('DOMContentLoaded', () => {
@@ -160,26 +162,17 @@ function createMovieGrid(containerId, numberOfMovies) {
         // Classes de visibilité selon le device et la position
         let visibilityClasses = '';
         
-        if (isTopRated) {
-            // Pour top-rated:
-            // Mobile (<576px): cacher après le 2ème
-            // Tablet (576px-991px): cacher après le 4ème
-            // Desktop (≥992px): tout montrer
-            if (i >= 4) {
+        // Pour top-rated:
+        // Mobile (<576px): cacher après le parametre mobileSizeFilmList
+        // Tablet (576px-991px): cacher après le parametre tabletSizeFilmList
+        // Desktop (≥992px): tout montrer
+        if (i >= mobileSizeFilmList){
+            visibilityClasses = 'd-none d-lg-block mobile-hidden d-sm-block';
+            if (i >= tabletSizeFilmList){
                 visibilityClasses = 'd-none d-lg-block mobile-hidden tablet-hidden';
-            } else if (i >= 2) {
-                visibilityClasses = 'd-none d-sm-block d-lg-block mobile-hidden';
-            }
-        } else {
-            // Pour les autres sections:
-            // Mobile: cacher après le 2ème
-            // Tablet: cacher après le 4ème
-            if (i >= 4) {
-                visibilityClasses = 'd-none d-lg-block mobile-hidden tablet-hidden';
-            } else if (i >= 2) {
-                visibilityClasses = 'd-none d-sm-block mobile-hidden';
             }
         }
+
         // Créer la carte du film
         const movieCard = `
             <div class="col-12 col-sm-6 col-lg-4 movie-container ${visibilityClasses}">
