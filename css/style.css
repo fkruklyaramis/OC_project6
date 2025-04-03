@@ -1,63 +1,56 @@
-/* Style général */
-body {
+/* ===============================
+   GENERAL STYLES
+   =============================== */
+   body {
     font-family: 'Oswald', sans-serif;
-    background-color: white ;
-    color: var(--text-light);
+    background-color: white;
     margin: 40px;
     padding: 20px;
 }
 
 .category-title {
     font-size: 48px;
-    font-weight: 600;
-    margin-bottom: 2rem;
-    margin-top: 2rem;
+    font-weight: 700;
+    margin: 2rem 0;
     color: #000000;
-    font-weight: bold;
 }
-/* Header */
+
+/* ===============================
+   HEADER
+   =============================== */
 .header {
     background-color: #61787F;
     padding: 1rem 0;
-    display: flex;           
-    align-items: center;     
-    justify-content: start; 
-    gap: 1rem;              
+    display: flex;
+    align-items: center;
+    gap: 1rem;
 }
-
 
 .header img {
     height: 80px;
 }
 
 .header-brand {
-    font-family: 'Oswald';
-    font-weight: 300;
     color: white;
     font-size: 40px;
-    margin: 0;
+    font-weight: 300;
     margin-left: 4rem;
 }
 
-/* Section Best movie */
-
+/* ===============================
+   BEST MOVIE SECTION
+   =============================== */
 .best-movie .row {
     border: 6px solid black;
     padding: 20px;
     margin: 0 !important;
-    border-radius: 0%;
 }
-.img-fluid{
-    width: 100%;
-    max-height: 600px;
-    object-fit: cover;
-}
+
 .movie-title {
     font-size: 48px;
-    font-weight: 600;
+    font-weight: 700;
     margin-bottom: 1rem;
     color: #333;
-    font-weight: bold;
 }
 
 .movie-description {
@@ -66,13 +59,72 @@ body {
     line-height: 1.6;
     margin-bottom: 2rem;
 }
+
+/* ===============================
+   MOVIE POSTERS
+   =============================== */
+.movie-poster {
+    width: 100%;
+    max-height: 600px;
+    object-fit: cover;
+}
+
+/* ===============================
+   POSTER MOVIE OVERLAY
+   =============================== */
+.movie-overlay {
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 35%;
+    height: 200px;
+    transform: translateY(-50%);
+    background-color: rgba(0, 0, 0, 0.7);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+
+.position-relative:hover .movie-overlay {
+    opacity: 1;
+}
+
+.movie-title-overlay {
+    margin: 30px;
+    color: white;
+    font-size: 24px;
+    font-weight: 600;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.movie-overlay .btn {
+    background-color: #000000;
+    color: white;
+    padding: 8px 20px;
+    font-weight: 500;
+    font-size: 14px;
+    border-radius: 25px;
+    border: none;
+    transform: translateY(20px);
+    transition: all 0.3s ease;
+    align-self: flex-end;
+    margin-bottom: 30px;
+    margin-right: 30px;
+}
+
+/* ===============================
+   BUTTONS
+   =============================== */
 .btn-primary {
-    background-color: #dc3545;  
+    background-color: #dc3545;
     border-color: #dc3545;
     border-radius: 25px;
     padding: 10px 30px;
     align-self: flex-end;
-    margin-top: auto;    
+    margin-top: auto;
 }
 
 .btn-primary:hover {
@@ -80,7 +132,43 @@ body {
     border-color: #bd2130;
 }
 
-/* Section Modal */
+/* Close Button */
+.btn-close-custom {
+    position: relative;
+    width: 32px;
+    height: 32px;
+    cursor: pointer;
+    background: transparent;
+    border: none;
+}
+
+.btn-close-custom::before,
+.btn-close-custom::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 0;
+    width: 100%;
+    height: 8px;
+    background-color: #fc0c24;
+}
+
+.btn-close-custom::before {
+    transform: rotate(45deg);
+}
+
+.btn-close-custom::after {
+    transform: rotate(-45deg);
+}
+
+.btn-close-custom:hover::before,
+.btn-close-custom:hover::after {
+    background-color: #f50920;
+}
+
+/* ===============================
+   MODAL
+   =============================== */
 
 .modal-content {
     border-radius: 0;
@@ -94,9 +182,9 @@ body {
     font-weight: 600;
     font-size: 48px;
 }
+
 .modal-movie-img {
     width: 100%;
-    max-height: 300px;
     object-fit: contain;
 }
 .modal-content .col-md-8 {
@@ -117,159 +205,49 @@ body {
     justify-content: center;
     margin-top: 1.5rem;
 }
-/* Section movies list */
-.list-movies .movie-poster {
-    width: 100%;
-    max-width: 500px;
-    object-fit: cover;
-}
-.movie-poster {
-    display: block;  /* Évite les espaces indésirables */
-    width: 100%;
-    height: 600px;
-    object-fit: cover;
-}
 
-/* overlay */
-.position-relative {
-    display: inline-block;  /* S'adapte à la taille de l'image */
-}
-.movie-overlay {
-    position: absolute;
-    left: 0;
-    right: 0;
-    /* Centrer verticalement l'overlay */
-    top: 35%;
-    height: 200px;  /* Hauteur fixe de l'overlay */
-    transform: translateY(-50%);  /* Ajustement pour le centrage vertical */
-    background-color: rgba(0, 0, 0, 0.7);
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: stretch;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    width: 100%;
-}
-
-.position-relative:hover .movie-overlay {
-    opacity: 1;
-}
-
-.movie-overlay .btn {
-    background-color: #000000;
-    color: white;
-    padding: 8px 20px;
-    font-weight: 500;
-    font-size: 14px;
-    border-radius: 25px;
-    border: none;
-    transform: translateY(20px);
-    transition: all 0.3s ease;
-    align-self: flex-end;
-    margin-bottom: 30px;
-    margin-right: 30px;
-}
-
-.position-relative:hover .movie-overlay .btn {
-    transform: translateY(0);
-}
-
-.movie-title-overlay {
-    margin-top: 30px;
-    margin-left: 30px;
-    color: white;
-    font-size: 24px;
-    font-weight: 600;
-    text-align: left;
-    width: 100%;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-}
-
+/* ===============================
+   CATEGORY SELECT
+   =============================== */
 .category-select {
     width: 404px;
     height: 78px;
 }
 
-
-.toggle-view {
-    align-self: center !important; /* Override align-self: flex-end from btn-primary */
-    margin-top: 1rem;
-}
-
-/* Close modal red cross button */
-.btn-close-custom {
-    position: relative;  
-    top: auto;
-    right: auto;  
-    width: 32px;
-    height: 32px;
-    cursor: pointer;
-    background: transparent;
-    border: none;
-    z-index: 1050;
-}
-
-.btn-close-custom::before,
-.btn-close-custom::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 0;
-    width: 100%;
-    height: 8px;  /* Épaisseur des traits */
-    background-color: #fc0c24; 
-}
-
-.btn-close-custom::before {
-    transform: rotate(45deg);
-}
-
-.btn-close-custom::after {
-    transform: rotate(-45deg);
-}
-
-.btn-close-custom:hover::before,
-.btn-close-custom:hover::after {
-    background-color: #f50920;  /* Rouge plus foncé au hover */
-}
-
-
-/* Style desktop */
+/* ===============================
+   RESPONSIVE DESIGN
+   =============================== */
+   
+/* Desktop (≥992px) */
 @media (min-width: 992px) {
     .toggle-view {
         display: none;
     }
-
-    .header-logo {
-        margin: 0;
-        margin-left: 1rem;
-    }
-    
 }
 
-/* Style tablette */
-@media (min-width: 576px) {
-
+/* Tablet (≥576px) */
+@media (min-width: 576px) and (max-width: 991.98px) {
     .movie-container {
         margin-bottom: 1.5rem;
     }
-
-    .header-logo {
-        margin: 0;
-        margin-left: 1rem;
-    }
 }
 
-/* Style mobile */
+/* Mobile (<576px) */
 @media (max-width: 575.98px) {
     .movie-container {
         margin-bottom: 1rem;
     }
     
-    .mobile-hidden {
-        transition: all 0.3s ease;
+    .header {
+        justify-content: center;
+    }
+    
+    .header-brand {
+        display: none;
     }
 }
+
+
+
+
+

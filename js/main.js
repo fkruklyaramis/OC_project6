@@ -115,7 +115,10 @@ function showMovieModal(movieData) {
     
     // Mettre à jour les éléments communs aux deux versions
     modal.querySelectorAll('.modal-title').forEach(el => el.textContent = movieData.title);
-    modal.querySelectorAll('.modal-movie-img').forEach(el => el.src = movieData.image_url);
+    modal.querySelectorAll('.modal-movie-img').forEach(el => {
+        el.src = movieData.image_url;
+        el.alt = "Poster du film : " + movieData.title;
+    });
     modal.querySelectorAll('.modal-date-genre').forEach(el => 
         el.textContent = movieData.year + ' - ' + movieData.genres.join(', '));
     modal.querySelectorAll('.modal-pg-duration-countries').forEach(el => 
@@ -123,7 +126,7 @@ function showMovieModal(movieData) {
     modal.querySelectorAll('.modal-imdb-score').forEach(el => 
         el.textContent = 'IMDB score: ' + movieData.imdb_score + '/10');
 
-    // Gérer le box office
+    // Gestion box office
     if (movieData.worldwide_gross_income) {
         modal.querySelectorAll('.modal-income').forEach(el => {
             el.textContent = 'Recettes au box-office: ' + movieData.worldwide_gross_income.toLocaleString() + ' ' + movieData.budget_currency;
@@ -143,6 +146,7 @@ function showMovieModal(movieData) {
     modal.querySelectorAll('.modal-description').forEach(el => 
         el.textContent = movieData.long_description);
 }
+
 // create movie grid
 function createMovieGrid(containerId, numberOfMovies) {
     const container = document.querySelector(containerId);
@@ -176,7 +180,7 @@ function createMovieGrid(containerId, numberOfMovies) {
                 visibilityClasses = 'd-none d-sm-block mobile-hidden';
             }
         }
-
+        // Créer la carte du film
         const movieCard = `
             <div class="col-12 col-sm-6 col-lg-4 movie-container ${visibilityClasses}">
                 <div class="position-relative">
