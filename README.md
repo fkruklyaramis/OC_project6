@@ -10,13 +10,9 @@ Une application web permettant de visualiser en temps réel les films les mieux 
 ## Installation et lancement
 
 ### 1. Lancer l'API locale
+1. Clone le repo de l'API en local https://github.com/OpenClassrooms-Student-Center/OCMovies-API-EN-FR
 
-1. Ouvrez un terminal et accédez au dossier API :
-```bash
-cd API
-```
-
-2. Suivez les instructions du fichier `API/readme.md` pour :
+2. Suivez les instructions du fichier `readme.md` pour :
    - Installer l'environnement virtuel
    - Installer les dépendances
    - Lancer le serveur API

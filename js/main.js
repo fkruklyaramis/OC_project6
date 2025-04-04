@@ -1,9 +1,9 @@
+/* CONSTANTES */
 const dataManager = new DataManager();
 const sizeFilmList = 6;
 const tabletSizeFilmList = 4;
 const mobileSizeFilmList = 2;
 
-// Initialisation
 document.addEventListener('DOMContentLoaded', () => {
     displayBestMovie();
     displayTopRatedMovies();
@@ -11,8 +11,11 @@ document.addEventListener('DOMContentLoaded', () => {
     displayCustomCategories();
 });
 
-// show best movie
 async function displayBestMovie() {
+    //Affiche le film le mieux noté dans la section dédiée de la page.
+    //Récupère les données du film et met à jour le DOM avec le titre, la description et l'affiche du film.
+    // Configure un écouteur d'événements sur le bouton du film pour afficher sa modale.
+
     try {
         const movieData = await dataManager.getBestMovie();
         document.querySelector('.movie-title').textContent = movieData.title;
@@ -28,8 +31,12 @@ async function displayBestMovie() {
     }
 }
 
-// show top rated movies
 async function displayTopRatedMovies() {
+    //Affiche les films les mieux notés dans la section dédiée de la page.
+    //Récupère les données des films et met à jour le DOM avec les affiches des films.
+    // Configure un écouteur d'événements sur chaque affiche de film pour afficher sa modale.
+    // Crée la grille de films et met à jour les affiches des films.
+
     try {
         // Créer la grille
         createMovieGrid('#top-rated .movies-container', sizeFilmList);
@@ -44,8 +51,11 @@ async function displayTopRatedMovies() {
     }
 }
 
-// get category movies data
 async function getCategoryMovies(category, div_id, limit) {
+    //Affiche les films d'une catégorie spécifique dans la section dédiée de la page.
+    //Récupère les données des films et met à jour le DOM avec les affiches des films.
+    // Crée la grille de films et met à jour les affiches des films.
+
     try {
         createMovieGrid(div_id, sizeFilmList);
         
@@ -59,8 +69,8 @@ async function getCategoryMovies(category, div_id, limit) {
     }
 }
 
-// show categories movies
 async function displayCategories() {
+    //Affiche les films de différentes catégories dans la section dédiée de la page.
     try {
         getCategoryMovies('comedy','#category-comedy .movies-container', sizeFilmList);
         getCategoryMovies('biography','#category-biography .movies-container', sizeFilmList);
@@ -70,8 +80,11 @@ async function displayCategories() {
     }
 }
 
-// show custom categories movies
 async function displayCustomCategories() {
+    //Affiche les films de catégories personnalisées dans la section dédiée de la page.
+    //Récupère les catégories disponibles et configure les listes déroulantes pour chaque section.
+    // Crée la grille de films et met à jour les affiches des films.
+    // Configure un écouteur d'événements sur chaque liste déroulante pour afficher les films de la catégorie sélectionnée.
     try {
         const categories = await dataManager.getCategories();
         const sections = ['custom-category-1', 'custom-category-2'];
@@ -111,8 +124,9 @@ async function displayCustomCategories() {
     }
 }
 
-// show movie modal
 function showMovieModal(movieData) {
+    // Affiche la modale avec les détails du film
+
     const modal = document.getElementById('movie-modal');
     
     // Mettre à jour les éléments communs aux deux versions
@@ -149,8 +163,11 @@ function showMovieModal(movieData) {
         el.textContent = movieData.long_description);
 }
 
-// create movie grid
 function createMovieGrid(containerId, numberOfMovies) {
+    // Crée la grille de films dans le conteneur spécifié
+    // Crée une ligne de films avec des cartes de film
+    // Ajoute un bouton "Voir plus/voir moins" pour afficher plus/moins de films
+    // Gère l'affichage des films selon la taille de l'écran
     const container = document.querySelector(containerId);
     container.innerHTML = '';
     const row = document.createElement('div');
@@ -222,8 +239,10 @@ function createMovieGrid(containerId, numberOfMovies) {
     });
 }
 
-// update movie posters
 function updateMoviePosters(moviesData, posters) {
+    // Met à jour les affiches des films avec les données fournies
+    // Ajoute un écouteur d'événements sur chaque affiche de film pour afficher sa modale
+    // Met à jour le titre overlay, le poster et le bouton de détails
     moviesData.forEach((movie, index) => {
         if (posters[index]) {
             const poster = posters[index];
